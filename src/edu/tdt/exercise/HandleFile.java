@@ -72,7 +72,20 @@ public class HandleFile {
 		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
 	}
 	
-	
+	@DELETE
+	@Path("/DeleteData/{StudentID}")
+	public Response deleteDataById(@PathParam("StudentID") String studentID) throws IOException {
+		String uploadFileLocation = Directory + "input.json";
+		ReadFileJRS353 readFile = new ReadFileJRS353();
+		List<StudentIn> student = readFile.buildStudentList(uploadFileLocation);
+		for(int i = 0; i < student.size(); i++) {
+			if(student.get(i).getId().equals(studentID)) {
+				student.remove(i);
+			}
+		}
+		String json = new Gson().toJson(student);
+		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
+	}
 	
 	
 	public List<StudentOut> handleData(List<StudentIn> students) {
