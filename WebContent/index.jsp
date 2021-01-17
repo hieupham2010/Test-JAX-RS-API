@@ -19,6 +19,8 @@
         </select>
         <input type="submit" value="Submit">
     </form>
+    
+    <a href="/Exercise/soa/RenderJson/GetData">Manage your data</a>
 </body>
 
 </html>

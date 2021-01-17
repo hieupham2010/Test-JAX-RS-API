@@ -1,5 +1,5 @@
 package edu.tdt.exercise;
-import java.util.logging.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.logging.Level;
+
 public class ReadFileGson {
 	public List<StudentIn> buildEmployeeList(String fileName) throws IOException {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

@@ -2,31 +2,35 @@ package edu.tdt.exercise;
 import javax.ws.rs.core.MediaType;
 
 
-import org.apache.tomcat.jni.Directory;
+
 
 import javax.ws.rs.Path;
-import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import com.google.gson.Gson;
 
 
 @Path("/RenderJson")
 public class HandleFile {
-	private static final Logger logger = Logger.getLogger(HandleFile.class.getName());
+	private static final Logger logger = Logger.getLogger(HandleFile.class.getName()); 
 	private static final String Directory = "C:\\uploadedFiles\\";
 	@POST
 	@Path("/Render")
@@ -50,7 +54,6 @@ public class HandleFile {
 		ReadFileJRS353 readFile = new ReadFileJRS353();
 		List<StudentIn> student = readFile.buildStudentList(uploadFileLocation);
 		List<StudentOut> studentOut = handleData(student);
-	
 		WriteFileJRS353 writeFile = new WriteFileJRS353();
 		writeFile.writeStudentList(Directory + "output.json", studentOut);
 		
@@ -58,6 +61,19 @@ public class HandleFile {
 		String res = "<h1>Processing completed</h1><a href=\"http://localhost:8080/Exercise/soa/DowloadFile/output.json\">Click here to get the result</a>";
 		return Response.status(200).entity(res).type(MediaType.TEXT_HTML).build();
 	}
+	
+	@GET
+	@Path("/GetData")
+	public Response getData() throws IOException {
+		String uploadFileLocation = Directory + "input.json";
+		ReadFileJRS353 readFile = new ReadFileJRS353();
+		List<StudentIn> student = readFile.buildStudentList(uploadFileLocation);
+		String json = new Gson().toJson(student);
+		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
+	}
+	
+	
+	
 	
 	public List<StudentOut> handleData(List<StudentIn> students) {
 		List<StudentOut> studentOut = new ArrayList<>();
