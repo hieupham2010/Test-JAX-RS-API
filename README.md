@@ -14,17 +14,17 @@
 
 	- Using GET method to get data from input.json (http://localhost:8080/Exercise/soa/RenderJson/GetData)
 	
-	![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img2.png)
+![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img2.png)
 	
 	- Using POST method add data to input.json (http://localhost:8080/Exercise/soa/RenderJson/AddData)
 	
-	![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img3.png)
+![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img3.png)
 	
 	- Using DELETE method to delete data in input.json (http://localhost:8080/Exercise/soa/RenderJson/DeleteData/{studentID})
 	
-	![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img4.png)
+![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img4.png)
 	
 	- Using PUT method to update data in input.json (http://localhost:8080/Exercise/soa/RenderJson/UpdateData)
 	
-	![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img5.png)
+![image](https://hieupham2010.github.io/Images/img/ImageTest-Jax-RS/img5.png)
 
