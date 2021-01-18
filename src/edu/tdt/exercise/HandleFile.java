@@ -106,6 +106,20 @@ public class HandleFile {
 		String json = new Gson().toJson(students);
 		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
 	}
+	
+	@POST
+	@Path("/AddData")
+	public Response addData(@FormParam("id") String studentID, @FormParam("name") String name) throws IOException {
+		String uploadFileLocation = Directory + "input.json";
+		ReadFileJRS353 readFile = new ReadFileJRS353();
+		List<StudentIn> students = readFile.buildStudentList(uploadFileLocation);
+		students.add(new StudentIn(studentID , name));
+		WriteFileJRS353 writeFile = new WriteFileJRS353();
+		writeFile.writeStudentIn(uploadFileLocation, students);
+		String json = new Gson().toJson(students);
+		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
+	}
+	
 	public List<StudentOut> handleData(List<StudentIn> students) {
 		List<StudentOut> studentOut = new ArrayList<>();
 		for(int i = 0 ; i < students.size() ; i++) {
