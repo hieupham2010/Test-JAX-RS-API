@@ -10,12 +10,10 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonStructure;
+
 import javax.json.JsonWriter;
 
-import org.json.simple.JSONObject;
 
-import com.google.gson.JsonObject;
 public class WriteFileJRS353 {
 	public void writeStudentList(String outFile , List<StudentOut> students) throws IOException {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();

@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.GET;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,7 +58,6 @@ public class HandleFile {
 		List<StudentOut> studentOut = handleData(student);
 		WriteFileJRS353 writeFile = new WriteFileJRS353();
 		writeFile.writeStudentList(Directory + "output.json", studentOut);
-		
 		logger.log(Level.INFO, studentOut.toString());
 		String res = "<h1>Processing completed</h1><a href=\"http://localhost:8080/Exercise/soa/DowloadFile/output.json\">Click here to get the result</a>";
 		return Response.status(200).entity(res).type(MediaType.TEXT_HTML).build();
@@ -77,19 +78,34 @@ public class HandleFile {
 	public Response deleteDataById(@PathParam("StudentID") String studentID) throws IOException {
 		String uploadFileLocation = Directory + "input.json";
 		ReadFileJRS353 readFile = new ReadFileJRS353();
-		List<StudentIn> student = readFile.buildStudentList(uploadFileLocation);
-		for(int i = 0; i < student.size(); i++) {
-			if(student.get(i).getId().equals(studentID)) {
-				student.remove(i);
+		List<StudentIn> students = readFile.buildStudentList(uploadFileLocation);
+		for(int i = 0; i < students.size(); i++) {
+			if(students.get(i).getId().equals(studentID)) {
+				students.remove(i);
 			}
 		}
 		WriteFileJRS353 writeFile = new WriteFileJRS353();
-		writeFile.writeStudentIn(uploadFileLocation, student);
-		String json = new Gson().toJson(student);
+		writeFile.writeStudentIn(uploadFileLocation, students);
+		String json = new Gson().toJson(students);
 		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
 	}
 	
-	
+	@PUT
+	@Path("/UpdateData")
+	public Response updateDataById(@FormParam("id") String studentID, @FormParam("name") String name) throws IOException {
+		String uploadFileLocation = Directory + "input.json";
+		ReadFileJRS353 readFile = new ReadFileJRS353();
+		List<StudentIn> students = readFile.buildStudentList(uploadFileLocation);
+		for(StudentIn student : students) {
+			if(student.getId().equals(studentID)) {
+				student.setName(name);
+			}
+		}
+		WriteFileJRS353 writeFile = new WriteFileJRS353();
+		writeFile.writeStudentIn(uploadFileLocation, students);
+		String json = new Gson().toJson(students);
+		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
+	}
 	public List<StudentOut> handleData(List<StudentIn> students) {
 		List<StudentOut> studentOut = new ArrayList<>();
 		for(int i = 0 ; i < students.size() ; i++) {
