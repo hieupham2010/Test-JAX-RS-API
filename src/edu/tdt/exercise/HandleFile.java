@@ -83,6 +83,8 @@ public class HandleFile {
 				student.remove(i);
 			}
 		}
+		WriteFileJRS353 writeFile = new WriteFileJRS353();
+		writeFile.writeStudentIn(uploadFileLocation, student);
 		String json = new Gson().toJson(student);
 		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
 	}

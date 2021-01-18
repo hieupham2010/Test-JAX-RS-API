@@ -9,13 +9,20 @@ import java.io.OutputStreamWriter;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
 import javax.json.JsonWriter;
+
+import org.json.simple.JSONObject;
+
+import com.google.gson.JsonObject;
 public class WriteFileJRS353 {
 	public void writeStudentList(String outFile , List<StudentOut> students) throws IOException {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         /**
          * Builds JsonArray from list of Employee
          */
+
         for (StudentOut student : students) {
             //Add desired name-value pairs to the array.
             //This example adds employee attributes and values 
@@ -39,6 +46,31 @@ public class WriteFileJRS353 {
                 JsonWriter jsonWriter = Json.createWriter(writer)) {
 
             jsonWriter.writeArray(employeesArray);
+            writer.flush();
+        }
+
+    }
+	public void writeStudentIn(String outFile , List<StudentIn> students) throws IOException {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        for (StudentIn student : students) {
+        	
+            jsonArrayBuilder.add(
+                    Json.createObjectBuilder()
+                            .add("id", student.getId())
+                            .add("name", student.getName())
+            );
+
+        }
+        jsonObjectBuilder.add("data", jsonArrayBuilder);
+        javax.json.JsonObject studentObject = jsonObjectBuilder.build();
+     
+        try (
+                OutputStream outputStream = new FileOutputStream(outFile);
+                Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+                JsonWriter jsonWriter = Json.createWriter(writer)) {
+
+            jsonWriter.writeObject(studentObject);
             writer.flush();
         }
 
