@@ -6,6 +6,8 @@ import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,12 +67,12 @@ public class HandleFile {
 	
 	@GET
 	@Path("/GetData")
-	public Response getData() throws IOException {
+	public void getData(@Suspended AsyncResponse asyncResponse) throws IOException {
 		String uploadFileLocation = Directory + "input.json";
 		ReadFileJRS353 readFile = new ReadFileJRS353();
 		List<StudentIn> student = readFile.buildStudentList(uploadFileLocation);
 		String json = new Gson().toJson(student);
-		return Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build();
+		asyncResponse.resume(Response.status(200).entity(json).type(MediaType.APPLICATION_JSON).build());
 	}
 	
 	@DELETE
